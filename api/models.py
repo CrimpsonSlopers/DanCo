@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Landing(models.Model):
-    description = models.CharField(max_length=20, null=False, unique=True)
+    description = models.CharField(max_length=50, null=False, unique=True)
     cover_image = models.ImageField(default='default.jpg', upload_to='covers')
     active = models.BooleanField(default=True)
 
@@ -11,7 +11,7 @@ class Landing(models.Model):
         return self.description
 
 class AboutUs(models.Model):
-    headline = models.CharField(max_length=20, null=False, unique=True)
+    headline = models.CharField(max_length=50, null=False, unique=True)
     body = models.TextField(max_length=1000, null=False)
     cover_image = models.ImageField(default='default.jpg', upload_to='about_us')
 
@@ -19,7 +19,7 @@ class AboutUs(models.Model):
         return self.headline
 
 class Product(models.Model):
-    name = models.CharField(max_length=20, null=False, unique=True)
+    name = models.CharField(max_length=50, null=False, unique=True)
     description = models.TextField(max_length=500, null=False)
     cover_image = models.ImageField(default='default.jpg', upload_to='products')
     url = models.URLField(unique=True)
@@ -28,7 +28,7 @@ class Product(models.Model):
         return self.name
 
 class UpcomingEvents(models.Model):
-    name = models.CharField(max_length=20, null=False, unique=True)
+    name = models.CharField(max_length=50, null=False, unique=True)
     description = models.TextField(max_length=500, null=False)
     cover_image = models.ImageField(default='default.jpg', upload_to='upcoming_events')
     url = models.URLField(unique=True)
