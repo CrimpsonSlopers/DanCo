@@ -29,7 +29,8 @@ class Product(models.Model):
 
 class UpcomingEvents(models.Model):
     name = models.CharField(max_length=50, null=False, unique=True)
-    description = models.TextField(max_length=500, null=False)
+    location = models.CharField(max_length=100, null=True)
+    date = models.CharField(max_length=100, null=True)
     cover_image = models.ImageField(default='default.jpg', upload_to='upcoming_events')
     url = models.URLField(unique=True)
 
