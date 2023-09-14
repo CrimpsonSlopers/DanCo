@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -18,7 +18,6 @@ const navItems = ['About Us', 'Products', 'Events', 'Location', 'Contact Us'];
 export default function Footer({ handleClick }) {
 
     return (
-
         <Box sx={{ backgroundColor: theme.palette.primary.main }}>
             <Grid
                 container
@@ -51,12 +50,6 @@ export default function Footer({ handleClick }) {
                         ))}
                     </List>
                 </Grid>
-                <Grid item xs={6} md={4}>
-                    <Typography variant="subheader1" fontWeight="bold" color={theme.palette.secondary.main}>
-                        Socials
-                    </Typography>
-                </Grid>
-
             </Grid >
         </Box>
     )
