@@ -36,8 +36,11 @@ module.exports = {
         preferRelative: true,
         alias: {
             components: path.resolve(__dirname, 'src/components/'),
+            sections: path.resolve(__dirname, 'src/sections/'),
             pages: path.resolve(__dirname, 'src/pages/'),
+            theme: path.resolve(__dirname, 'src/theme/'),
             utils: path.resolve(__dirname, 'src/utils/'),
+
         },
     },
 };

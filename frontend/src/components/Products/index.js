@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import Slider from 'react-slick'
+
 
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Slider from 'react-slick'
-import { Grid, IconButton } from "@mui/material";
+import Typography from '@mui/material/Typography';
+
+import { theme } from "theme";
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ProductList } from "./data";
+import { Container, Stack } from "@mui/material";
+
+import { styled } from '@mui/system';
+
+// Create a custom styled Container
+const CustomContainer = styled(Container)`
+  && {
+    padding-right: 0!important;
+    margin-right: 0!important; /* Remove the right padding */
+  }
+`;
 
 
 const sliderSettings = {
+    arrows: false,
     dots: false,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    infinite: true,
+    infinite: false,
     responsive: [
         {
             breakpoint: 1024,
@@ -37,8 +53,31 @@ const sliderSettings = {
 }
 
 
-export default function Products() {
+export default function Products({ productAnchor }) {
     const slider = React.useRef(null);
+    const [productData, setProductData] = useState([]);
+
+    useEffect(() => {
+        const getSessions = async () => {
+            try {
+                const response = await fetch(`/api/products`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+                if (response.status === 200) {
+                    const data = await response.json();
+                    setProductData(data);
+                } else {
+                    throw new Error(`Unexpected response status: ${response.status}`);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getSessions();
+    }, []);
 
     const nextSlide = () => {
         slider.current.slickNext();
@@ -48,65 +87,51 @@ export default function Products() {
         slider.current.slickPrev();
     };
 
-    slider.current
+
     return (
-        <Box py={"10vh"}>
-            <Container >
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                    pb={"20px"}
-                >
-                    <Grid item mr={"30px"}>
-                        <Typography variant="h4" fontWeight="bold" sx={{ color: '#425066', pb: 1 }}>
-                            Our Products
-                        </Typography>
-                        <Typography variant="body2" fontWeight="bold" sx={{ color: '#ff6f00' }}>
-                            INDUSTRY EXPERTS WE TRUST
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <IconButton onClick={previousSlide} aria-label="delete" size="large">
-                            <ArrowBackIcon sx={{ fontSize: 40, color: "#ff9100" }} />
-                        </IconButton>
-                    </Grid>
-                    <Grid item>
-                        <IconButton onClick={nextSlide} aria-label="delete" size="large">
-                            <ArrowForwardIcon sx={{ fontSize: 40, color: "#ff9100" }} />
-                        </IconButton>
-                    </Grid>
-                </Grid>
-            </Container>
-            <Slider ref={slider} {...sliderSettings}>
-                {
-                    ProductList.map((product, index) => {
+        <Box sx={{ backgroundColor: theme.palette.primary.main, py: "50px", mb: "50px" }} ref={productAnchor}>
+            <CustomContainer>
+                <Stack direction={"row"} alignItems={"center"} spacing={3}>
+                    <Typography variant="h3" fontWeight="bold" color={theme.palette.secondary.main} sx={{ pb: 2, ml: 10 }}>
+                        Our Products
+                    </Typography>
+                    <IconButton onClick={previousSlide} aria-label="delete" size="large">
+                        <ArrowBackIcon sx={{ fontSize: 40, color: theme.palette.secondary.main }} />
+                    </IconButton>
+                    <IconButton onClick={nextSlide} aria-label="delete" size="large">
+                        <ArrowForwardIcon sx={{ fontSize: 40, color: theme.palette.secondary.main }} />
+                    </IconButton>
+                </Stack>
+                <Slider ref={slider} {...sliderSettings}>
+                    {productData.map((product, index) => {
                         return (
-                            <Box sx={{ width: '100%', p: 3 }} key={index}>
-                                <CardMedia
-                                    sx={{
-                                        height: 200,
-                                        borderRadius: '8px'
-                                    }}
-                                    image={product.image}
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {product.name}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {product.passage}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button onClick={() => window.open(product.href, '_blank')} size="small">Learn More</Button>
-                                </CardActions>
+                            <Box sx={{ width: '100%', height: "450px", p: 3 }} key={index}>
+                                <Card width="375px" height={"100%"}>
+                                    <CardMedia
+                                        sx={{
+                                            height: 200,
+                                            borderRadius: '8px'
+                                        }}
+                                        image={product.cover_image}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {product.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {product.description}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button onClick={() => window.open(product.url, '_blank')} size="small">Learn More</Button>
+                                    </CardActions>
+                                </Card>
                             </Box>
                         )
-                    })
-                }
-            </Slider>
+                    })}
+                </Slider>
+
+            </CustomContainer>
         </Box>
     )
 }
