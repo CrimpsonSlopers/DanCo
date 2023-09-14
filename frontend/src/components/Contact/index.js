@@ -25,6 +25,9 @@ export default function Contact({ contactAnchor }) {
                 spacing={5}
                 py={5}
                 mb={"50px"}
+                sx={{
+                    backgroundColor: 'transparent'
+                }}
             >
                 <Grid item xs={12}>
                     <Typography variant="h3" fontWeight="bold" color={theme.palette.secondary.main} sx={{ pb: 2, ml: 10 }}>
@@ -133,7 +136,7 @@ export default function Contact({ contactAnchor }) {
                                 </Grid>
                                 <Grid item>
                                     <Typography sx={{ pb: '10px', color: theme.palette.light.main }}>
-                                        <a href='mailto:jrhawktwo@gmail.com?subject=Requesting a Quote' target="_blank" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>
+                                        <a style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>
                                             jrhawktwo@gmail.com
                                         </a>
                                     </Typography>
@@ -145,7 +148,7 @@ export default function Contact({ contactAnchor }) {
                                 </Grid>
                                 <Grid item>
                                     <Typography sx={{ pb: '10px', color: theme.palette.light.main }}>
-                                        <a href='tel:9136899236' target="_blank" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>
+                                        <a href='tel:9136899236' style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>
                                             (913) 689 9236
                                         </a>
                                     </Typography>
